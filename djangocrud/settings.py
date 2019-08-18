@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'djangocrud.api',
     'corsheaders',
+    'rest_framework_swagger',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
