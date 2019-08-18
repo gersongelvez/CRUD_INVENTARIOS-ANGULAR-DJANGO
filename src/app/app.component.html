@@ -1,0 +1,206 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div align="center">
+
+
+
+<button mat-button color="primary" style="font-size:20px" (click)="asignarTab(0)">Inicio</button>
+<button mat-button color="primary" style="font-size:20px" (click)="asignarTab(1)">Inventario de Bienes</button>
+<button mat-button color="primary" style="font-size:20px" (click)="asignarTab(2)">Personas</button>
+<button mat-button color="primary" style="font-size:20px" (click)="asignarTab(3)">Areas</button>
+<button mat-button color="primary" style="font-size:20px" (click)="asignarTab(4)">Estados</button>
+<button mat-button color="primary" style="font-size:20px" (click)="asignarTab(5)">Tipos</button>
+
+</div>
+
+<div *ngIf="tab == 0" class="alert alert-success alert-dismissible fade in" role="alert">
+  <br><br><br>
+  <div align="center"><h1>Inventario de bienes de una empresa</h1></div>
+</div>
+
+<div *ngIf="tab == 1" class="alert alert-success alert-dismissible fade in" role="alert">
+<br>
+<div >
+  <h1>Seleccione el bien a gestionar: </h1>
+  <ul>
+    <li *ngFor="let bien of bienes">
+      <h3 (click)="bienClicked(bien)">Nombre del bien: {{bien.nombre}}</h3>
+    </li>
+  </ul>
+  <hr>
+
+
+  <label for="estados">Nombre</label>
+  <input id="estados" type="text" [(ngModel)]="selectedBien.nombre"/><br>
+
+  <label for="descripciones">Descripcion</label>
+  <input id="descripciones" type="text" [(ngModel)]="selectedBien.descripcion"/><br> 
+
+  <label for="seriales">serial</label>
+  <input id="seriales" type="text" [(ngModel)]="selectedBien.serial"/><br> 
+
+  <label for="valores">valor</label>
+  <input id="valores" type="text" [(ngModel)]="selectedBien.valor"/><br> 
+
+  <label for="fechas">Fecha</label>
+  <input id="fechas" type="text" [(ngModel)]="selectedBien.fecha"/><br> 
+
+<label for="tipos">Tipo</label>
+<div [formGroup]="formGroupTipo">  
+<select formControlName="formControlTipo" id="tipos" [(ngModel)]="selectedBien.tipo" >
+    <option *ngFor="let tipo of tipos; let i = index" [value]="tipos[i].id">
+      {{tipos[i].nombre}}
+    </option>
+  </select>
+</div>
+  <br>
+
+  <label for="estados">Estado</label>
+  <div [formGroup]="formGroupEstado">  
+  <select formControlName="formControlEstado" id="estados" [(ngModel)]="selectedBien.estado" >
+      <option *ngFor="let estado of estados; let i = index" [value]="estados[i].id">
+        {{estados[i].nombre}}
+      </option>
+    </select>
+  </div>
+    <br>
+
+    <label for="areas">Asignar a area</label>
+    <div [formGroup]="formGroupArea">  
+    <select formControlName="formControlArea" id="areas" [(ngModel)]="selectedBien.area" >
+        <option *ngFor="let area of areas; let i = index" [value]="areas[i].id">
+          {{areas[i].nombre}}
+        </option>
+      </select>
+    </div>
+      <br>
+
+      <label for="personas">Asignar a persona</label>
+      <div [formGroup]="formGroupPersona">  
+      <select formControlName="formControlPersona" id="personas" [(ngModel)]="selectedBien.persona" >
+          <option *ngFor="let persona of personas; let i = index" [value]="personas[i].id">
+            {{personas[i].nombres}} {{personas[i].apellidos}}
+          </option>
+        </select>
+      </div>
+        <br>
+
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedBien.id != -1" (click)="updateBien()"> MODIFICAR </button>
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedBien.id == -1" (click)="createBien()"> CREAR </button>
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedBien.id != -1" (click)="deleteBien()"> BORRAR </button>
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedBien.id != -1" (click)="clearBien()"> LIMPIAR </button>
+
+</div>
+</div>
+
+
+
+
+
+
+
+<div *ngIf="tab == 2" class="alert alert-success alert-dismissible fade in" role="alert">
+  <br>
+  <div >
+    <h1>Seleccione la persona a gestionar: </h1>
+    <ul>
+      <li *ngFor="let persona of personas">
+        <h3 (click)="personaClicked(persona)">Nombre de la persona: {{persona.nombres}} {{persona.apellidos}}</h3>
+      </li>
+    </ul>
+    <hr>
+  
+  
+    <label for="nombres">Nombres</label>
+    <input id="nombres" type="text" [(ngModel)]="selectedPersona.nombres"/><br>
+  
+    <label for="apellidos">Apellidos</label>
+    <input id="apellidos" type="text" [(ngModel)]="selectedPersona.apellidos"/><br> 
+
+    <label for="cargo">Cargo</label>
+    <input id="cargo" type="text" [(ngModel)]="selectedPersona.cargo"/><br> 
+          <br>
+  
+    <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedPersona.id != -1" (click)="updatePersona()"> MODIFICAR </button>
+    <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedPersona.id == -1" (click)="createPersona()"> CREAR </button>
+    <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedPersona.id != -1" (click)="deletePersona()"> BORRAR </button>
+    <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedPersona.id != -1" (click)="clearPersona()"> LIMPIAR </button>
+  
+  </div>
+  </div>
+
+
+
+  <div *ngIf="tab == 3" class="alert alert-success alert-dismissible fade in" role="alert">
+    <br>
+    <div >
+      <h1>Seleccione la area a gestionar: </h1>
+      <ul>
+        <li *ngFor="let area of areas">
+          <h3 (click)="areaClicked(area)">Nombre: {{area.nombre}}</h3>
+        </li>
+      </ul>
+      <hr>
+    
+    
+      <label for="nombres">Nombre</label>
+      <input id="nombre" type="text" [(ngModel)]="selectedArea.nombre"/><br>
+      <br>
+    
+      <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedArea.id != -1" (click)="updateArea()"> MODIFICAR </button>
+      <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedArea.id == -1" (click)="createArea()"> CREAR </button>
+      <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedArea.id != -1" (click)="deleteArea()"> BORRAR </button>
+      <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedArea.id != -1" (click)="clearArea()"> LIMPIAR </button>
+    
+    </div>
+    </div>
+
+
+    <div *ngIf="tab == 4" class="alert alert-success alert-dismissible fade in" role="alert">
+      <br>
+      <div >
+        <h1>Seleccione el estado a gestionar: </h1>
+        <ul>
+          <li *ngFor="let estado of estados">
+            <h3 (click)="estadoClicked(estado)">Nombre: {{estado.nombre}}</h3>
+          </li>
+        </ul>
+        <hr>
+      
+      
+        <label for="nombres">Nombre</label>
+        <input id="nombre" type="text" [(ngModel)]="selectedEstado.nombre"/><br>
+        <br>
+      
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedEstado.id != -1" (click)="updateEstado()"> MODIFICAR </button>
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedEstado.id == -1" (click)="createEstado()"> CREAR </button>
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedEstado.id != -1" (click)="deleteEstado()"> BORRAR </button>
+        <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedEstado.id != -1" (click)="clearEstado()"> LIMPIAR </button>
+      
+      </div>
+      </div>
+
+
+      <div *ngIf="tab == 5" class="alert alert-success alert-dismissible fade in" role="alert">
+        <br>
+        <div >
+          <h1>Seleccione el tipo a gestionar: </h1>
+          <ul>
+            <li *ngFor="let tipo of tipos">
+              <h3 (click)="tipoClicked(tipo)">Nombre: {{tipo.nombre}}</h3>
+            </li>
+          </ul>
+          <hr>
+        
+        
+          <label for="nombres">Nombre</label>
+          <input id="nombre" type="text" [(ngModel)]="selectedTipo.nombre"/><br>
+          <br>
+        
+          <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedTipo.id != -1" (click)="updateTipo()"> MODIFICAR </button>
+          <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedTipo.id == -1" (click)="createTipo()"> CREAR </button>
+          <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedTipo.id != -1" (click)="deleteTipo()"> BORRAR </button>
+          <button mat-button color="primary" style="font-size:20px"  *ngIf="selectedTipo.id != -1" (click)="clearTipo()"> LIMPIAR </button>
+        
+        </div>
+        </div>
